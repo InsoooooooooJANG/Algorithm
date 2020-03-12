@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cstdio>
 #include <algorithm>
 using namespace std;
 typedef struct 
@@ -25,14 +25,14 @@ bool cmp2(const ST &p1, const ST &p2){
 }
 int main(){
     int cnt, i = 0;
-    cin >> cnt;
+    scanf("%d", &cnt);
     
     ST* arr = (ST*) malloc (sizeof(ST) * cnt);
-    while(i<cnt){ arr[i].idx = i; cin >> arr[i].num; i++;}
+    while(i<cnt){ arr[i].idx = i; scanf("%d",&arr[i].num); i++;}
     sort(arr, arr+cnt, cmp);
     i=0; 
     while(i<cnt){ arr[i].sortedidx = i; i++;}
     sort(arr, arr+cnt, cmp2);
     i=0;
-    while(i<cnt){ cout << arr[i].sortedidx << ' '; i++;}
+    while(i<cnt){ printf("%d ", arr[i].sortedidx); i++;}
 }

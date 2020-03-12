@@ -1,4 +1,4 @@
-#include <iostream>
+#include <cstdio>
 #include <algorithm>
 
 using namespace std;
@@ -20,14 +20,12 @@ bool cmp(const ST &p1, const ST &p2){
 int main()
 {
     int cnt = 0,idx = 0;
-    cin >> cnt;
+    scanf("%d", &cnt);
     
     ST *arr = (ST*)malloc(sizeof(ST) * cnt);
     
     while(idx < cnt){
-        cin >> arr[idx].id;
-        cin >> arr[idx].value;
-
+        scanf("%d%d", &arr[idx].id, &arr[idx].value);
         idx++;
     }
     
@@ -35,7 +33,7 @@ int main()
     
     idx = 0;
     while(idx < cnt){
-        cout << arr[idx].id << " " << arr[idx].value << endl;
+        printf("%d %d\n", arr[idx].id, arr[idx].value);
         idx++;
     }
 }

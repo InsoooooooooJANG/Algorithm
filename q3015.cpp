@@ -1,40 +1,36 @@
-#include <iostream>
-#include <cstring>
+#include <cstdio>
+#include <algorithm>
 using namespace std;
 struct node
 {
     char name[10];
     int score;
-    struct node *next;
 };
+bool cmp(const struct node &p1, const struct node &p2){
+    if(p1.score > p2.score){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
 
 int main()
 {
-    char rank[100][10]={0,};
-    int cnt,printCnt, idx =0, j=0;
-    struct node *header = 0;
-    struct node *ptr = 0;
-    cin >> cnt >> printCnt;
-    for(int i =0 ; i < cnt; i++)
+    int cnt, printCnt, i =0;
+    scanf("%d%d", &cnt, &printCnt);
+    struct node *arr = (struct node*)malloc(sizeof(struct node) * cnt);
+    while(i<cnt)
     {
-        struct node new;
-        cin>>new.name>>new.score;
-        
-        if(header==0)
-        {
-            header = &new;
-        }
-        else
-        {
-            ptr = header;
-            
-            while(ptr->next != 0)
-            {
-                if(ptr->score > new.score)
-                {
-                    
-                }
-            }
-        }
+        scanf("%s%d", arr[i].name, &arr[i].score);
+        i++;
+    }
+    i=0;
+    stable_sort(arr, arr+cnt, cmp);
+
+    while(i<printCnt)
+    {
+        printf("%s ", arr[i].name);
+        i++;
     }
 }
