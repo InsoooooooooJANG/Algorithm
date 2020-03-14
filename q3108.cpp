@@ -15,10 +15,10 @@ int isExist(struct st arr[], int num)
 			return i;
 		}
 	}
-	return 0;
+	return 100;
 }
 bool cmp(const struct st &p1, const struct st &p2){
-    if(p1.num > p2.num){
+    if(p1.num < p2.num){
         return true;
     }
     else{
@@ -27,7 +27,7 @@ bool cmp(const struct st &p1, const struct st &p2){
 }
 int main()
 {
-	int cnt,delIdx=0, inputIdx=0;
+	int cnt,delIdx=-1, inputIdx=0;
 	struct st arr[100];
 	scanf("%d", &cnt);
 	for(int i =0; i<cnt; i++)
@@ -35,34 +35,33 @@ int main()
 		char code;
 		int num;
 		char name[10];
-		scanf("%c%d%s", &code, &num, name);
+		scanf(" %c", &code);
+		scanf("%d", &num);
+		scanf("%s",name);
 		if(code=='I')
 		{
-			if(isExist(arr, num)==0)
+			if(isExist(arr, num)==100)
 			{
-				if(delIdx != 0)
-				{
-					arr[delIdx].num = num;
-					strcpy(arr[delIdx].name, name);
-					delIdx =0;
-					inputIdx++;
-					
-				}
-				else
-				{
-					arr[inputIdx].num = num;
-					strcpy(arr[inputIdx].name, name);
-					inputIdx++;
-					
-				}
+				arr[inputIdx].num = num;
+				strcpy(arr[inputIdx].name, name);
+				inputIdx++;
 			}
 		}
 		else
 		{
 			int idx = isExist(arr, num);
-			if(idx!=0) 
+			if(idx!=100) 
 			{
-				delIdx =idx;
+				if(inputIdx==1)
+				{
+					arr[idx].num = 0;
+					strcpy(arr[idx].name,"");
+				}
+				for(int j =idx; j<inputIdx-1; j++)
+				{
+					arr[j].num = arr[j+1].num;
+					strcpy(arr[j].name, arr[j+1].name);
+				}
 				inputIdx--;
 				
 			}
@@ -76,6 +75,6 @@ int main()
 	
 	for(int i=0; i<5; i++)
 	{
-		printf("%d %s\n", arr[printIdx[i]].num, arr[printIdx[i]].name);
+		printf("%d %s\n", arr[printIdx[i]-1].num, arr[printIdx[i]-1].name);
 	}
 }
