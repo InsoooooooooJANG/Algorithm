@@ -1,16 +1,20 @@
 #include <cstdio>
 #include <cstring>
 #include <algorithm>
+#include <vector>
+#include <iostream>
 using namespace std;
 struct st{
 	int num;
 	char name[11];
 };
-int isExist(struct st arr[], int num, int cnt)
+int isExist(vector<struct st> &arr, int num, int cnt)
 {
+	struct st tmp;
 	for(int i = 0; i<cnt; i++)
 	{
-		if(arr[i].num == num)
+		tmp = arr[i];
+		if(tmp.num == num)
 		{
 			return i;
 		}
@@ -27,65 +31,53 @@ bool cmp(const struct st &p1, const struct st &p2){
 }
 int main()
 {
-	int cnt,delIdx=-1, inputIdx=0;
-	struct st arr[20000];
+	int cnt;
 	scanf("%d", &cnt);
+	
+	vector<struct st> arr;
+	
 	for(int i =0; i<cnt; i++)
 	{
 		char code;
-		int num;
-		char name[11];
+		struct st tmp;
+		vector<struct st>::iterator iter = arr.begin();
 		scanf(" %c", &code);
-		scanf("%d", &num);
-		scanf("%s",name);
+		scanf("%d", &tmp.num);
+		scanf("%s",tmp.name);
+		
 		if(code=='I')
 		{
-			int idx = isExist(arr, num, cnt);
-			if(idx ==cnt)
+			int idx = isExist(arr, tmp.num, arr.size());
+			
+			if(idx ==arr.size())
 			{
-				arr[inputIdx].num = num;
-				strcpy(arr[inputIdx].name, name);
+				arr.push_back(tmp);
 			}
 			else
 			{
-				for(int j = cnt-1; j > idx ; j--)
-				{
-					arr[j].num = arr[j-1].num;
-					strcpy(arr[j].name, arr[j-1].name);
-				}
-				arr[idx].num = num;
-				strcpy(arr[idx].name, name);
+				arr.insert(iter+idx, tmp);
 			}
-			inputIdx++;
 		}
 		else
 		{
-			int idx = isExist(arr, num, cnt);
-			if(idx!=cnt) 
+			int idx = isExist(arr, tmp.num, arr.size());
+			if(idx!=arr.size()) 
 			{
-				if(inputIdx==1)
-				{
-					arr[idx].num = 0;
-					strcpy(arr[idx].name,"");
-				}
-				for(int j =idx; j<inputIdx-1; j++)
-				{
-					arr[j].num = arr[j+1].num;
-					strcpy(arr[j].name, arr[j+1].name);
-				}
-				inputIdx--;
-				
+				iter += (idx);
+				arr.erase(iter);
 			}
-		}			
+		}	
 	}
+	
+  sort(arr.begin(), arr.end(), cmp);
 	
 	int printIdx[5];
 	scanf("%d%d%d%d%d",&printIdx[0],&printIdx[1],&printIdx[2],&printIdx[3],&printIdx[4]);
 	
-	sort(arr, arr+inputIdx, cmp);
-	
 	for(int i=0; i<5; i++)
 	{
-		printf("%d %s\n", arr[printIdx[i]-1].num, arr[printIdx[i]-1].name);
+		struct st tmp;
+		tmp = arr[printIdx[i]-1];
+		printf("%d %s\n", tmp.num, tmp.name);
 	}
 }
